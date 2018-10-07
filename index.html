@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<!-- edit -->
+<html ng-app="App">
+    <head>
+        <meta charset="utf-8">
+        <title>Reddit Demo</title>
+
+       <!--  <link rel="stylesheet" href="static/css/bootstrap.min.css"> -->
+        <link rel="stylesheet" href="static/css/style.css">
+        <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+
+		
+    </head>
+    <body ng-controller="mainController">
+
+    	<nav class="navbar navbar-light navbar-fixed-top bg-light" style="background-color: #fff;">
+		  <a class="navbar-brand" href="#">
+		    <img src="https://banner2.kisspng.com/20180408/yhq/kisspng-logo-reddit-decal-social-media-computer-icons-red-shapes-5aca8d0dbcbfb4.7779072315232238217731.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
+		    Reddit
+		  </a>
+		</nav>
+    	 <div ng-show="popup === 1" class="modal-mask" id="editDetailsModel">
+			<div class="modal-content-wpr sm">
+				<div class="container-fluid">
+					<div class="row popup-header">
+						<div class="col-md-12">
+							<span class="popup-title">Bookmarks</span>
+							<span ng-click="popup = 0" class="pull-right close-btn">
+								<i class="fa fa-times close-icon" aria-hidden="true"></i>
+							</span>
+						</div>
+					</div>
+					<div class="common-edit-popup">
+						<div class="row" ng-show="bookMarkedPosts.length == 0">
+							<div class="col-md-8">
+								<h5>No Bookmarks Found</h5>
+							</div>
+						</div>
+						<div class="row" ng-show="bookMarkedPosts">
+							<div class="col-md-8 col-md-offset-2">
+								<div class="row"  ng-repeat = "post in bookMarkedPosts track by $index">
+				    				<div class="col-md-12 post_box">
+					    				<div class="row">
+					    					<div class="col-md-6">
+					    						<div class="owner-content">
+									                <img class = "owner-image" src="https://image.flaticon.com/icons/svg/236/236832.svg" />
+									            </div>
+									            <div class = "owner-name">
+									                {{post.data.subreddit_name_prefixed}}
+									            </div>
+					    						
+					    					</div>
+					    					<div class="col-md-6">
+					    						Posted by : {{post.data.author}}
+					    					</div>
+					    				</div>
+					    				<div class="row">
+					    					<div class="col-md-12 title_box">
+					    						<a class="title" href="{{post.data.url}}"><h4>{{post.data.title}}</h4></a>
+					    					</div>
+					    				</div>
+					    				<div class="row">
+					    					
+					    					<!-- image or video -->
+				    						<center>
+				    							<img src="{{post.data.preview.images[0].source.url}}" ng-show="!post.data.media" class="image_box"/>
+
+				    							 <iframe ng-src="{{post.data.url}}" ng-if="post.data.domain == 'youtube.com'" class="frame_box"></iframe> 
+
+				    							<video width="400" controls ng-if="post.data.is_video">
+												  <source ng-src="{{post.data.media.reddit_video.fallback_url}}" type="video/mp4">
+												  <source ng-src="{{post.data.media.reddit_video.fallback_url}}" type="video/ogg">
+												  Your browser does not support HTML5 video.
+												</video>
+				    						</center>
+					    					
+					    				</div>
+					    				<div class="row action_boxes">
+					    					<div class="col-md-4">
+					    						<div class="action_button">
+					    							<i class="fa fa-comment" aria-hidden="true"></i> {{post.data.num_comments}} comments
+					    						</div>
+					    					</div>
+					    					<div class="col-md-4">
+					    						<div class="action_button">
+					    							<i class="fa fa-share" aria-hidden="true"></i> Share
+					    						</div>
+					    					</div>
+					    					<div class="col-md-4">
+					    						<div class="action_button" ng-click = "removePost($index)">
+					    							<i class="fa fa-bookmark" aria-hidden="true"></i> UnSave
+					    						</div>
+					    					</div>
+					    				</div>
+					    			</div>
+				    			</div>
+				    		</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<br>
+    	<div class="container">
+    		<div class="row">
+    			<div class="col-md-6 col-md-offset-2" infinite-scroll="paginationFunction()">
+    				<div class="row"  ng-repeat = "post in postList">
+	    				<div class="col-md-12 post_box">
+		    				<div class="row">
+		    					<div class="col-md-6">
+		    						<div class="owner-content">
+						                <img class = "owner-image" src="https://image.flaticon.com/icons/svg/236/236832.svg" />
+						            </div>
+						            <div class = "owner-name">
+						                {{post.data.subreddit_name_prefixed}}
+						            </div>
+		    						
+		    					</div>
+		    					<div class="col-md-6">
+		    						Posted by : {{post.data.author}}
+		    					</div>
+		    				</div>
+		    				<div class="row">
+		    					<div class="col-md-12 title_box">
+		    						<a class="title" href="{{post.data.url}}"><h4>{{post.data.title}}</h4></a>
+		    					</div>
+		    				</div>
+		    				<div class="row">
+		    					
+		    					<!-- image or video -->
+	    						<center>
+	    							<img src="{{post.data.preview.images[0].source.url}}" ng-show="!post.data.media" class="image_box"/>
+
+	    							 <iframe ng-src="{{post.data.url}}" ng-if="post.data.domain == 'youtube.com'" class="frame_box"></iframe> 
+
+	    							<video width="400" controls ng-if="post.data.is_video">
+									  <source ng-src="{{post.data.media.reddit_video.fallback_url}}" type="video/mp4">
+									  <source ng-src="{{post.data.media.reddit_video.fallback_url}}" type="video/ogg">
+									  Your browser does not support HTML5 video.
+									</video>
+	    						</center>
+		    					
+		    				</div>
+		    				<div class="row action_boxes">
+		    					<div class="col-md-4">
+		    						<div class="action_button">
+		    							<i class="fa fa-comment" aria-hidden="true"></i> {{post.data.num_comments}} comments
+		    						</div>
+		    					</div>
+		    					<div class="col-md-4">
+		    						<div class="action_button">
+		    							<i class="fa fa-share" aria-hidden="true"></i> Share
+		    						</div>
+		    					</div>
+		    					<div class="col-md-4">
+		    						<div class="action_button" ng-click = "post.data.saved || checkBookmarks(post)  ? removePostFromList(post,$index) : savePost(post)">
+		    							<i class="fa fa-bookmark" aria-hidden="true"></i> {{post.data.saved || checkBookmarks(post) ? 'Unsave' : 'Save'}}
+		    						</div>
+		    					</div>
+		    				</div>
+		    			</div>
+	    			</div>
+	    			<div class="row">
+		    			<div class='col-md-12 post_box' ng-show="load">
+						  	<div class='text-input__loading--line user_line'></div>
+						  	<div class='text-input__loading--line title_line'></div>
+						  	<div class='text-input__loading--line image_line'></div>
+						  	<div class='text-input__loading--line action_line'></div>
+						</div>
+					</div>
+    			</div>
+    			<div class="col-md-1 col-md-offset-10 show_bookmark_icon">
+    				<div ng-click="showBookmarks()" class="bookmarks">
+    					<i class="fa fa-bookmark bookmarks_icon" aria-hidden="true"></i>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./node_modules/angular/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
+    <script type='text/javascript' src='./libs/ng-infinite-scroll.min.js'></script>
+    <script type="text/javascript" src="./app.js"></script>
+    <script type="text/javascript" src="./controllers/mainController.js"></script>
+    <script type="text/javascript" src="./services/mainService.js"></script>
+</html>
