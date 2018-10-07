@@ -11,31 +11,31 @@ this.reddit.controller("mainController", ['$scope','MainService','$localStorage'
     function getPosts(params){
 	    MainService.getPosts(params).then(
 	        function(response){
-	           
-	            $scope.postList = response.data.data.children;
-	            $scope.after = response.data.data.after;
-	            
+	           $scope.postList = response.data.data.children;
+	           $scope.after = response.data.data.after;
 	        },
 	        function(err){
-	            
+	            alert("Error");
 	        });
 	};
 
 	$scope.paginationFunction = function(){
 		$scope.load = true;
-		let params = '?count=25&after=' + $scope.after;
-		MainService.getPosts(params).then(
-	        function(response){
-	           	for(var i=0;i<response.data.data.children.length;i++){
-		            $scope.postList.push(response.data.data.children[i]);
-		            $scope.after = response.data.data.after;
-	        	}
-	        	$scope.load = false;
-	            
-	        },
-	        function(err){
-	            
-	        });
+		if($scope.postList.length >= 25){
+			let params = '?count=15&after=' + $scope.after;
+			MainService.getPosts(params).then(
+		        function(response){
+		           	for(var i=0;i<response.data.data.children.length;i++){
+			            $scope.postList.push(response.data.data.children[i]);
+			            $scope.after = response.data.data.after;
+		        	}
+		        	$scope.load = false;
+		            
+		        },
+		        function(err){
+		            alert("Error");
+		    });
+		}
 	};
 
 	$scope.savePost = function(data){
