@@ -136,7 +136,7 @@
 
 	    							 <iframe ng-src="{{post.data.url}}" ng-if="post.data.domain == 'youtube.com'" class="frame_box"></iframe> 
 
-	    							<video width="400" controls ng-if="post.data.is_video">
+	    							<video width="400" height="400" controls ng-if="post.data.is_video">
 									  <source ng-src="{{post.data.media.reddit_video.fallback_url}}" type="video/mp4">
 									  <source ng-src="{{post.data.media.reddit_video.fallback_url}}" type="video/ogg">
 									  Your browser does not support HTML5 video.
