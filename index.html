@@ -7,8 +7,9 @@
 
        <!--  <link rel="stylesheet" href="static/css/bootstrap.min.css"> -->
         <link rel="stylesheet" href="static/css/style.css">
-        <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet"/>
+        <link rel="stylesheet"href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
 
 
 		
@@ -69,7 +70,7 @@
 
 				    							 <iframe ng-src="{{post.data.url}}" ng-if="post.data.domain == 'youtube.com'" class="frame_box"></iframe> 
 
-				    							<video width="400" controls ng-if="post.data.is_video">
+				    							<video width="400" height="400" controls ng-if="post.data.is_video">
 												  <source ng-src="{{post.data.media.reddit_video.fallback_url}}" type="video/mp4">
 												  <source ng-src="{{post.data.media.reddit_video.fallback_url}}" type="video/ogg">
 												  Your browser does not support HTML5 video.
@@ -186,6 +187,7 @@
     <script type="text/javascript" src="./node_modules/angular/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
     <script type='text/javascript' src='./libs/ng-infinite-scroll.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script type="text/javascript" src="./app.js"></script>
     <script type="text/javascript" src="./controllers/mainController.js"></script>
     <script type="text/javascript" src="./services/mainService.js"></script>

@@ -41,7 +41,7 @@ this.reddit.controller("mainController", ['$scope','MainService','$localStorage'
 	$scope.savePost = function(data){
 		$scope.$storage.redditBookmarks.push(data);
 		data.data.saved = true;
-		alert("Post saved successfully");
+		toastr.info('Post saved successfully');
 		console.log(data.data.saved)
 	}; 
 
@@ -52,7 +52,7 @@ this.reddit.controller("mainController", ['$scope','MainService','$localStorage'
 		$scope.postList[index].data.saved = false;
 		let position = $scope.checkindex(data);
 		$scope.removePost(position);
-		alert("Post unsaved successfully");
+		toastr.info("Post removed from saved collection");
 	}
 
 	$scope.showBookmarks = function(){
